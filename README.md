@@ -25,16 +25,16 @@ Brief summary:
 ### Clipped Policy Objective
 
 
-$$\mathcal{L}^{CLIP}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) \hat{A}_t \right) \right]$$
+$$`\mathcal{L}^{CLIP}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) \hat{A}_t \right) \right]`$$
 The main idea behind the clipped policy objective is avoiding too aggressive updates by clipping, or bounding how much the new policy can differ from the old one.\
 The key takeaways:
-$$r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$$
+$$`r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}`$$
 Is the change in probability of picking $a_t$ in state $s_t$ under the new policy.
-$$\hat A_{t} = R_{t} - V(s_t;\theta)$$
+$$`\hat A_{t} = R_{t} - V(s_t;\theta)`$$
 Is the advantage estimate, given by the difference of the discounted rewards $R_{t}$ and the baseline estimate $V(s_t;\theta)$. It essentially indicates, how much better or worse an action $a_t$ taken in state $s_t$ is compared to the baseline value estimate.
 On the bottom line: This helps in guiding the policy update by focusing on improving actions that performed better than expected and discouraging those that performed worse.
 ### Complete Objective
-$$L_{t}^{CLIP + VF + S} =  \mathbb{E}_t \left[ L_{t}^{CLIP}(\theta) + c_1L_{t}^{VF}(\theta) + c_{2}S[\pi_{\theta}](s_t) \right]$$
+$$`L_{t}^{CLIP + VF + S} =  \mathbb{E}_t \left[ L_{t}^{CLIP}(\theta) + c_1L_{t}^{VF}(\theta) + c_{2}S[\pi_{\theta}](s_t) \right]`$$
 The combined Loss is the expectation over the clipped policy objective, the penalization for inaccurate return predictions $V(s_t;\theta)$ and an entropy term used to encourage exploration.
 
 ## Environment
@@ -47,12 +47,12 @@ The agent is tasked to find Alfred and bring him back to the mothership while av
 An observation is a refined version of the game state comprising of the essentials required for an agent to fullfill its task. It can be thought of as the information of the game given to the agent. In practice, that information is carefully tailored to the task, the reward function and the feature extractor. \
 Actions are essentially the decisions or choices of an agent in response to the current game state, and in the view of the agent, the observation it received.
 
-In our case, the observation at time step $t$ is a tuple: $o_t = (o_1 \in \mathbb{R}^{4},o_2 \in \mathbb{R}^{300 \times 300})$, where $o_1$ is a vector containing the coordinates of the agent's spacecraft and the destination (either Alfred or the mothership) and $o_2$ is a grey scale image of the agent's vicinity. 
+In our case, the observation at time step $t$ is a tuple: $`o_t = (o_1 \in \mathbb{R}^{4},o_2 \in \mathbb{R}^{300 \times 300})`$, where $o_1$ is a vector containing the coordinates of the agent's spacecraft and the destination (either Alfred or the mothership) and $o_2$ is a grey scale image of the agent's vicinity. 
 
-The actions are simple movement decisions: $a = \{up, down, left, right\}$ In practice, the policy network predicts a number which is mapped to the actions and hence chooses an element from the set.
+The actions are simple movement decisions: $`a = \{up, down, left, right\}`$ In practice, the policy network predicts a number which is mapped to the actions and hence chooses an element from the set.
 
 ## Reward Function
-Having learnt about the advantage estimate $\hat A_{t}$, the discounted reward $R_{t}$ and the predicted cummulative reward $V(s_t;\theta)$, we know how important the reward shaping is. It greatly impacts how PPO optimizes our policy, the way our agent picks actions, and hence achieves or fails the desired goal.
+Having learnt about the advantage estimate $`\hat A_{t}`$, the discounted reward $`R_{t}`$ and the predicted cummulative reward $`V(s_t;\theta)`$, we know how important the reward shaping is. It greatly impacts how PPO optimizes our policy, the way our agent picks actions, and hence achieves or fails the desired goal.
 
 My reward function considers two aspects, moving towards the target, that's either Alfred or the mothership and preventing a collision with astroids in close proximity. In order to achieve more stable rewards over time, I apply reward smoothing with a buffer of 10.
 
@@ -66,7 +66,7 @@ where $r_{nav} = ||rescuer_{pos} - target_{pos}||_{2}$, the eucledian distance b
 Recall, the observation comprises of a coordinate vector and an image of the agent's vicinity. Both parts are intended for different aspects. While the coordinate vector provides the information for the pick up and delivery and thus long term navigation, the image harbours the information about asteroids within close proximity and is suitable for learning to avoid collision. In order to laverage this information, we have to build a custom feature extractor which manages to extract information from both modalities.
 On a high level, the custom feature extractor can be formulated as follows:
 
-$$features = fusion(Decoder(o_1),CNN(o_2))$$
+$$`features = fusion(Decoder(o_1),CNN(o_2))`$$
 
 where the Decoder is a self-attention Transformer Decoder and the CNN comprises of several 2D convolutional and max-pooling layers. Implementation details can be found in 'ppo_model.py'.
 
