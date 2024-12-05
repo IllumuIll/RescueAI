@@ -93,7 +93,7 @@ Over the course of these checkpoints, the environment was made bigger and astero
 ## Evaluation
 The following evaluation depicts the performance of the Agent's latest checkpoint against the random baseline. The random baseline is essentially an agent who was not allowed to learn, thus gives a suitable lower bound performance. The evaluation has been conducted by granting each agent 50'000 actions. The velocity of the asteroids was set to high and the number to 4. Which is equivalent to the training parameters for the last checkpoint. Note, the environment is randomized, hence test is different from training.
 
-<div style="display: flex; justify-content: center;">
+<center>
   <table border="1">
     <thead>
       <tr>
@@ -115,7 +115,8 @@ The following evaluation depicts the performance of the Agent's latest checkpoin
       </tr>
     </tbody>
   </table>
-</div>
+</center>
+
 
 ## Author
 Jeremy Marbach\
