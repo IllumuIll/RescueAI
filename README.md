@@ -2,7 +2,9 @@
 RescueAI is an AI agent trained with Proximal Policy Optimization (PPO) using a custom actor-critic architecture for processing multimodal observations. Leveraging curriculum learning, the agent is trained through a series of checkpoints, gradually increasing the difficulty of the task and complexity of the environment. The final agent is capable of navigating in a randomized 2D space environment where it's tasked to carry a lost alien back to its mothership while avoiding any collisions with floating asteroids.
 
 ## Highlights
-<div style="text-align: center;"> <img src="supplements/RescueAI.gif" alt="Rescue Mission"> </div>
+<p align="center">
+  <img src="supplements/RescueAI.gif" alt="animated" />
+</p>
 
 ## Inference
 Clone the repository and open the console:
