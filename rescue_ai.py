@@ -22,7 +22,6 @@ def main():
         obs, _, done = env.step(model.predict(obs)[0])[0:3]
         if done:
             obs = env.reset()[0]
-            env.game._save_video()
-
+            
 if __name__ == "__main__":
     main()
