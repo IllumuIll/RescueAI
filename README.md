@@ -42,7 +42,7 @@ On the bottom line: This helps in guiding the policy update by focusing on impro
 ```math
 L_{t}^{CLIP + VF + S} =  \mathbb{E}_t \left[ L_{t}^{CLIP}(\theta) + c_1L_{t}^{VF}(\theta) + c_{2}S[\pi_{\theta}](s_t) \right]
 ```
-The combined Loss is the expectation over the clipped policy objective, the penalization for inaccurate return predictions $V(s_t;\theta)$ and an entropy term used to encourage exploration.
+The combined Loss is the expectation over the clipped policy objective, the penalization for inaccurate return predictions $`V(s_t;\theta)`$ and an entropy term used to encourage exploration.
 
 ## Environment
 The environment can be thought of as the playground for the AI agent. It's capable of altering the environment's state by taking actions. The environment in our case is a custom mini game developed by using the [Python Arcade](https://api.arcade.academy/en/latest/) library. It's a 512x512 pixel 2D space game comprising of a rescuer, a spacecraft controlled by the agent, Alfred, the cute alien who got lost in space and a mothership, Alfred's destination. Asteroids are floating through space which destroy the rescuer upon collision. The entire game is randomized, i.e the positions of all starting locations are random, with the exceptions of being none overlapping with each other and the border. The spawning location of the asteroids is on the screen's border and each asteroid is given a random but bounded velocity.
