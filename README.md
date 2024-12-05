@@ -29,13 +29,19 @@ Brief summary:
 ```
 The main idea behind the clipped policy objective is avoiding too aggressive updates by clipping, or bounding how much the new policy can differ from the old one.\
 The key takeaways:
-$$`r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}`$$
+```math
+r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}
+```
 Is the change in probability of picking $a_t$ in state $s_t$ under the new policy.
-$$`\hat A_{t} = R_{t} - V(s_t;\theta)`$$
+```math
+\hat A_{t} = R_{t} - V(s_t;\theta)
+```
 Is the advantage estimate, given by the difference of the discounted rewards $R_{t}$ and the baseline estimate $V(s_t;\theta)$. It essentially indicates, how much better or worse an action $a_t$ taken in state $s_t$ is compared to the baseline value estimate.
 On the bottom line: This helps in guiding the policy update by focusing on improving actions that performed better than expected and discouraging those that performed worse.
 ### Complete Objective
-$$`L_{t}^{CLIP + VF + S} =  \mathbb{E}_t \left[ L_{t}^{CLIP}(\theta) + c_1L_{t}^{VF}(\theta) + c_{2}S[\pi_{\theta}](s_t) \right]`$$
+```math
+L_{t}^{CLIP + VF + S} =  \mathbb{E}_t \left[ L_{t}^{CLIP}(\theta) + c_1L_{t}^{VF}(\theta) + c_{2}S[\pi_{\theta}](s_t) \right]
+```
 The combined Loss is the expectation over the clipped policy objective, the penalization for inaccurate return predictions $V(s_t;\theta)$ and an entropy term used to encourage exploration.
 
 ## Environment
@@ -57,18 +63,17 @@ Having learnt about the advantage estimate $`\hat A_{t}`$, the discounted reward
 
 My reward function considers two aspects, moving towards the target, that's either Alfred or the mothership and preventing a collision with astroids in close proximity. In order to achieve more stable rewards over time, I apply reward smoothing with a buffer of 10.
 
-
-$`r_t = \psi\frac{1}{2}(r_{nav}(o_t,a_t) + \bar{r}_{nav}(o_t,a_t)) + \psi\frac{1}{2}(r_{avoid}(o_t,a_t) + \bar{r}_{avoid}(o_t,a_t))`$
-
-
+```math
+r_t = \psi\frac{1}{2}(r_{nav}(o_t,a_t) + \bar{r}_{nav}(o_t,a_t)) + \psi\frac{1}{2}(r_{avoid}(o_t,a_t) + \bar{r}_{avoid}(o_t,a_t))
+```
 where $r_{nav} = ||rescuer_{pos} - target_{pos}||_{2}$, the eucledian distance between the current and desired position in the plane, while $\bar{r}_{nav}$ is the averaged navigation reward of the past 10 time steps. The constant $\psi$ is a hyperparameter to adjust the magnitude (and thus importance) of the navigation reward. The avoidance reward is formulated similarly, where I compute the euclidean distance between the hit-box mesh of the rescuer and asteroid sprites. 
 
 ## Multimodal feature extraction
 Recall, the observation comprises of a coordinate vector and an image of the agent's vicinity. Both parts are intended for different aspects. While the coordinate vector provides the information for the pick up and delivery and thus long term navigation, the image harbours the information about asteroids within close proximity and is suitable for learning to avoid collision. In order to laverage this information, we have to build a custom feature extractor which manages to extract information from both modalities.
 On a high level, the custom feature extractor can be formulated as follows:
-
-$$`features = fusion(Decoder(o_1),CNN(o_2))`$$
-
+```math
+features = fusion(Decoder(o_1),CNN(o_2))
+```
 where the Decoder is a self-attention Transformer Decoder and the CNN comprises of several 2D convolutional and max-pooling layers. Implementation details can be found in 'ppo_model.py'.
 
 ## Curriculum Learning
