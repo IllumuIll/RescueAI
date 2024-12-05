@@ -66,7 +66,7 @@ My reward function considers two aspects, moving towards the target, that's eith
 ```math
 r_t = \psi\frac{1}{2}(r_{nav}(o_t,a_t) + \bar{r}_{nav}(o_t,a_t)) + \psi\frac{1}{2}(r_{avoid}(o_t,a_t) + \bar{r}_{avoid}(o_t,a_t))
 ```
-where $r_{nav} = ||rescuer_{pos} - target_{pos}||_{2}$, the eucledian distance between the current and desired position in the plane, while $\bar{r}_{nav}$ is the averaged navigation reward of the past 10 time steps. The constant $\psi$ is a hyperparameter to adjust the magnitude (and thus importance) of the navigation reward. The avoidance reward is formulated similarly, where I compute the euclidean distance between the hit-box mesh of the rescuer and asteroid sprites. 
+where $`r_{nav} = ||rescuer_{pos} - target_{pos}||_{2}`$, the eucledian distance between the current and desired position in the plane, while $\bar{r}_{nav}$ is the averaged navigation reward of the past 10 time steps. The constant $\psi$ is a hyperparameter to adjust the magnitude (and thus importance) of the navigation reward. The avoidance reward is formulated similarly, where I compute the euclidean distance between the hit-box mesh of the rescuer and asteroid sprites. 
 
 ## Multimodal feature extraction
 Recall, the observation comprises of a coordinate vector and an image of the agent's vicinity. Both parts are intended for different aspects. While the coordinate vector provides the information for the pick up and delivery and thus long term navigation, the image harbours the information about asteroids within close proximity and is suitable for learning to avoid collision. In order to laverage this information, we have to build a custom feature extractor which manages to extract information from both modalities.
