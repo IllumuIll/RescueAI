@@ -25,16 +25,16 @@ Brief summary:
 ### Clipped Policy Objective
 
 
-$$ \mathcal{L}^{CLIP}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) \hat{A}_t \right) \right] $$
+$$\mathcal{L}^{CLIP}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) \hat{A}_t \right) \right]$$
 The main idea behind the clipped policy objective is avoiding too aggressive updates by clipping, or bounding how much the new policy can differ from the old one.\
 The key takeaways:
-$$ r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$$
+$$r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$$
 Is the change in probability of picking $a_t$ in state $s_t$ under the new policy.
 $$\hat A_{t} = R_{t} - V(s_t;\theta)$$
 Is the advantage estimate, given by the difference of the discounted rewards $R_{t}$ and the baseline estimate $V(s_t;\theta)$. It essentially indicates, how much better or worse an action $a_t$ taken in state $s_t$ is compared to the baseline value estimate.
 On the bottom line: This helps in guiding the policy update by focusing on improving actions that performed better than expected and discouraging those that performed worse.
 ### Complete Objective
-$$ L_{t}^{CLIP + VF + S} =  \mathbb{E}_t \left[ L_{t}^{CLIP}(\theta) + c_1L_{t}^{VF}(\theta) + c_{2}S[\pi_{\theta}](s_t) \right]$$
+$$L_{t}^{CLIP + VF + S} =  \mathbb{E}_t \left[ L_{t}^{CLIP}(\theta) + c_1L_{t}^{VF}(\theta) + c_{2}S[\pi_{\theta}](s_t) \right]$$
 The combined Loss is the expectation over the clipped policy objective, the penalization for inaccurate return predictions $V(s_t;\theta)$ and an entropy term used to encourage exploration.
 
 ## Environment
