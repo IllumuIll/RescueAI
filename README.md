@@ -24,8 +24,9 @@ RescueAI is learnt by applying the Proximal Policy Optimization (PPO) algorithm.
 Brief summary:
 ### Clipped Policy Objective
 
-
-$$`\mathcal{L}^{CLIP}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) \hat{A}_t \right) \right]`$$
+```math
+\mathcal{L}^{CLIP}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) \hat{A}_t \right) \right]
+```
 The main idea behind the clipped policy objective is avoiding too aggressive updates by clipping, or bounding how much the new policy can differ from the old one.\
 The key takeaways:
 $$`r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}`$$
