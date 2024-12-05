@@ -66,7 +66,7 @@ Having learnt about the advantage estimate $`\hat A_{t}`$, the discounted reward
 My reward function considers two aspects, moving towards the target, that's either Alfred or the mothership and preventing a collision with astroids in close proximity. In order to achieve more stable rewards over time, I apply reward smoothing with a buffer of 10.
 
 ```math
-r_t = \psi\frac{1}{2}(r_{nav}(o_t,a_t) + \bar{r}_{nav}(o_t,a_t)) + \psi\frac{1}{2}(r_{avoid}(o_t,a_t) + \bar{r}_{avoid}(o_t,a_t))
+r_t = \psi\frac{1}{2}(r_{nav}(o_t,a_t) + \bar{r}_{nav}(o_t,a_t)) + \frac{1}{2}(r_{avoid}(o_t,a_t) + \bar{r}_{avoid}(o_t,a_t))
 ```
 where $`r_{nav} = ||rescuer_{pos} - target_{pos}||_{2}`$, the eucledian distance between the current and desired position in the plane, while $\bar{r}_{nav}$ is the averaged navigation reward of the past 10 time steps. The constant $\psi$ is a hyperparameter to adjust the magnitude (and thus importance) of the navigation reward. The avoidance reward is formulated similarly, where I compute the euclidean distance between the hit-box mesh of the rescuer and asteroid sprites. 
 
